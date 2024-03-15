@@ -64,20 +64,10 @@ const Signup = () => {
 
   return (
     <div className="form_container">
-      <h2>Signup Account</h2>
+      <h2>Create your Account</h2>
+      <p>Get started with your free account.</p>
+      <br />
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            autoComplete="true"
-            onChange={handleOnChange}
-          />
-        </div>
         <div>
           <label htmlFor="email">Username</label>
           <input
@@ -86,6 +76,18 @@ const Signup = () => {
             name="username"
             value={username}
             placeholder="Enter your username"
+            autoComplete="true"
+            onChange={handleOnChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={email}
+            placeholder="Enter your email"
             autoComplete="true"
             onChange={handleOnChange}
           />

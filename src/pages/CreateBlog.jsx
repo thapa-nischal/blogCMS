@@ -49,8 +49,8 @@ const CreateBlog = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/");
-        }, 1000);
+          navigate("/home");
+        }, 2000);
       } else {
         handleError(message);
         // console.log();
