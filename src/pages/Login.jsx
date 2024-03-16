@@ -24,6 +24,7 @@ const Login = () => {
       autoClose: 2000,
       theme: "dark",
     });
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "bottom-right",
@@ -46,7 +47,7 @@ const Login = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/");
+          navigate("/home");
         }, 100);
       } else {
         handleError(message);

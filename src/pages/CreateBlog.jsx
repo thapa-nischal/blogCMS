@@ -2,19 +2,55 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const CreateBlog = () => {
   const navigate = useNavigate();
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ size: [] }],
+      [{ font: [] }],
+      [{ align: ["right", "center", "justify"] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      [{ color: ["red", "#785412"] }],
+      [{ background: ["red", "#785412"] }],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "link",
+    "color",
+    "image",
+    "background",
+    "align",
+    "size",
+    "font",
+  ];
+
   const [inputValue, setInputValue] = useState({
     title: "",
     body: "",
+    content: "",
   });
-  const { title, body } = inputValue;
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
+
+  const { title, body, content } = inputValue;
+  const handleOnChange = (value) => {
     setInputValue({
       ...inputValue,
-      [name]: value,
+      content: value,
     });
   };
 
@@ -53,7 +89,7 @@ const CreateBlog = () => {
         }, 2000);
       } else {
         handleError(message);
-        // console.log();
+        console.log();
       }
     } catch (error) {
       console.error("Error publishing blog:", error);
@@ -63,6 +99,7 @@ const CreateBlog = () => {
       ...inputValue,
       title: "",
       body: "",
+      content: "",
     });
   };
 
@@ -76,7 +113,9 @@ const CreateBlog = () => {
           id="title"
           name="title"
           value={title}
-          onChange={handleOnChange}
+          onChange={(e) =>
+            setInputValue({ ...inputValue, title: e.target.value })
+          }
           placeholder="Enter your blog's title..."
         />
       </div>
@@ -86,8 +125,21 @@ const CreateBlog = () => {
           id="body"
           name="body"
           value={body}
-          onChange={handleOnChange}
+          onChange={(e) =>
+            setInputValue({ ...inputValue, body: e.target.value })
+          }
           placeholder="Write your blog post..."
+        />
+      </div>
+      <div>
+        <ReactQuill
+          name="content"
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          placeholder="Write your content here...."
+          value={content}
+          onChange={handleOnChange}
         />
       </div>
       <button onClick={handlePublish}>Publish</button>

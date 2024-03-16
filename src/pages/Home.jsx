@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import Blog from "../components/Blog";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -55,7 +54,6 @@ const Home = () => {
           New Blog{" "}
         </button>
         <div>
-          <Blog />
         </div>
       </div>
       <ToastContainer />
