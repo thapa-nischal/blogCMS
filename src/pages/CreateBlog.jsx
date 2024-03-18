@@ -85,7 +85,7 @@ const CreateBlog = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/blogs");
         }, 2000);
       } else {
         handleError(message);

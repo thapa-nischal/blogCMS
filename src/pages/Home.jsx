@@ -53,8 +53,11 @@ const Home = () => {
           {" "}
           New Blog{" "}
         </button>
-        <div>
-        </div>
+        <button className="Blogs" onClick={() => navigate("/blogs")}>
+          {" "}
+          Blogs{" "}
+        </button>
+        <div></div>
       </div>
       <ToastContainer />
     </>
