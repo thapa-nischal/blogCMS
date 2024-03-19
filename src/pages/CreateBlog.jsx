@@ -72,7 +72,7 @@ const CreateBlog = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/newblogs",
+        "http://localhost:3000/postblog",
         {
           ...inputValue,
         },
@@ -85,7 +85,7 @@ const CreateBlog = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/blogs");
+          navigate("/home");
         }, 2000);
       } else {
         handleError(message);

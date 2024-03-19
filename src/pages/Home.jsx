@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import Blogs from "../components/Blogs";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -41,6 +44,7 @@ const Home = () => {
   };
   return (
     <>
+      <Navbar />
       <div className="home_page">
         <h4>
           {" "}
@@ -51,15 +55,14 @@ const Home = () => {
         </button>
         <button className="createBlog" onClick={() => navigate("/createblog")}>
           {" "}
-          New Blog{" "}
+          Write{" "}
         </button>
-        <button className="Blogs" onClick={() => navigate("/blogs")}>
-          {" "}
-          Blogs{" "}
-        </button>
-        <div></div>
+        <div>
+          <Blogs />
+        </div>
       </div>
       <ToastContainer />
+      <Footer />
     </>
   );
 };

@@ -7,7 +7,7 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/blogs"); // Replace with your API endpoint
+        const response = await axios.get("http://localhost:3000/getblog");
         setBlogs(response.data.blogs);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -15,11 +15,10 @@ const Blogs = () => {
     };
 
     fetchBlogs();
-  }, []); // Empty dependency array ensures the effect runs only once after initial render
+  }, []);
 
   return (
     <div>
-      <h1>List of Blogs</h1>
       {blogs.map((blog) => (
         <div key={blog._id}>
           <h2>{blog.title}</h2>
