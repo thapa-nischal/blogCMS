@@ -13,7 +13,7 @@ const Footer = () => {
         fontSize: "1rem",
       }}
     >
-      <p className="text-3xl font-bold underline">Blog CMS</p>
+      <p className="text-3xl font-bold underline">CodeX</p>
     </div>
   );
 };

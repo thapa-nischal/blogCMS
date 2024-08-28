@@ -19,14 +19,15 @@ export const useLogin = () => {
         { withCredentials: true }
       );
 
-      const { success, message, token } = response.data;
+      const { success, message, username, token } = response.data;
+      // console.log(user);
 
       if (success) {
         // Update auth context
-        dispatch({ type: "LOGIN", payload: { email, token } });
+        dispatch({ type: "LOGIN", payload: { username, email, token } });
 
         // Save user to local storage
-        localStorage.setItem("user", JSON.stringify({ email, token }));
+        localStorage.setItem("user", JSON.stringify({ username, email, token }));
 
         setIsLoading(false);
         return { success, message };

@@ -1,17 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import App from "./App.jsx";
 import "./index.css";
-import "react-toastify/dist/ReactToastify.css";
+import { AuthContextProvider } from "./context/AuthContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <AuthContextProvider>
       <NextUIProvider>
         <App />
       </NextUIProvider>
-    </BrowserRouter>
+    </AuthContextProvider>
   </React.StrictMode>
 );

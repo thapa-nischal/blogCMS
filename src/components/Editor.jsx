@@ -6,13 +6,13 @@ const Editor = ({ data, onChange, editorblock }) => {
   const ref = useRef();
   //Initialize editorjs
   useEffect(() => {
-    //Initialize editorjs if we don't have a reference
     if (!ref.current) {
       const editor = new EditorJS({
         holder: editorblock,
-
         tools: EDITOR_JS_TOOLS,
         data: data,
+        autofocus: true,
+        placeholder: "Type / for commands",
         async onChange(api, event) {
           const data = await api.saver.save();
           onChange(data);
@@ -28,9 +28,7 @@ const Editor = ({ data, onChange, editorblock }) => {
       }
     };
   }, []);
-  return (
-    <div id={editorblock} />
-  );
+  return <div id={editorblock} className="w-full" />;
 };
 
 export default memo(Editor);

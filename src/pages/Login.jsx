@@ -1,7 +1,9 @@
+// src/components/Login.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast from "react-hot-toast";
+import { Input, Button } from "@nextui-org/react";
+import { useLogin } from "../hooks/useLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,7 +11,9 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const { email, password } = inputValue;
+
+  const { login, isLoading, error } = useLogin();
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -18,91 +22,83 @@ const Login = () => {
     });
   };
 
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-right",
-      autoClose: 2000,
-      theme: "dark",
-    });
+  const handleError = (error) => toast.error(error);
 
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-right",
-      autoClose: 2000,
-      theme: "dark",
-    });
+  const handleSuccess = (msg) => toast.success(msg);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        "http://localhost:3000/login",
-        {
-          ...inputValue,
-        },
-        { withCredentials: true }
-      );
-      // console.log(data);
-      const { success, message } = data;
-      if (success) {
-        handleSuccess(message);
-        setTimeout(() => {
-          navigate("/home");
-        }, 100);
-      } else {
-        handleError(message);
-      }
-    } catch (error) {
-      console.log(error);
+    const { email, password } = inputValue;
+    const { success, message } = await login(email, password);
+
+    if (success) {
+      handleSuccess(message);
+      setTimeout(() => {
+        navigate("/home");
+      }, 100);
+    } else {
+      handleError(message);
     }
+
     setInputValue({
-      ...inputValue,
       email: "",
       password: "",
     });
   };
 
+  // Regex Validation for Email
+  const validateEmail = (value) =>
+    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+
+  const isInvalid = (email) => {
+    if (email === "") return false;
+    return validateEmail(email) ? false : true;
+  };
+
+  const { email, password } = inputValue;
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div className="flex justify-center flex-wrap content-center h-screen">
       <div className="form_container">
-        <h2>Login</h2>
-        <p>Log into your Account</p>
-        <br />
+        <p className="text-center">Log into your Account</p>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email">Email</label>
-            <input
+            <Input
+              autoComplete="true"
               id="email"
               type="email"
               name="email"
+              label="Email"
               value={email}
-              placeholder="Enter your email"
               onChange={handleOnChange}
+              isInvalid={isInvalid(email)}
+              color={isInvalid(email) ? "danger" : "success"}
+              errorMessage={isInvalid(email) && "Please enter a valid email"}
+              variant="faded"
+              className="max-w-xs"
+              required
             />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
-            <input
+            <Input
               id="password"
               type="password"
               name="password"
               value={password}
-              placeholder="Enter your password"
+              label="Password"
               onChange={handleOnChange}
+              variant="faded"
+              className="max-w-xs"
+              required
             />
           </div>
-          <button type="submit">Submit</button>
-          <span>
-            Already have an account? <Link to={"/signup"}>Signup</Link>
+          <Button disabled={isLoading} color="primary" variant="solid" type="submit">
+            {isLoading ? "Logging in..." : "Submit"}
+          </Button>
+          <span className="text-center">
+            Don't have an account? <Link to={"/signup"}>Signup</Link>
           </span>
         </form>
-        <ToastContainer />
       </div>
     </div>
   );

@@ -1,12 +1,9 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const LandingPage = () => {
   return (
     <div>
-      <Navbar />
-      <Footer />
+      <h1>Landing page</h1>
     </div>
   );
 };

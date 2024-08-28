@@ -1,68 +1,55 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import Blogs from "../components/Blogs";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import { Blogs } from "../components";
+import { Input } from "@nextui-org/react";
+import { SearchIcon } from "../components";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
-  const [username, setUsername] = useState("");
+  const [blogs, setBlogs] = useState([]);
+  const [tag, setTag] = useState("");
+  // Fetch Blogs
   useEffect(() => {
-    const verifyCookie = async () => {
-      if (!cookies.token) {
-        navigate("/login");
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("/api/getblogs", {
+          params: { tag },
+        });
+        setBlogs(response.data.blogs);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
       }
-      const { data } = await axios.post(
-        "http://localhost:3000",
-        {},
-        { withCredentials: true }
-      );
-      const { status, user } = data;
-      setUsername(user);
-      return status
-        ? toast(`Hello ${user}`, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: 0,
-            theme: "dark",
-          })
-        : (removeCookie("token"), navigate("/login"));
     };
-    verifyCookie();
-  }, [cookies, navigate, removeCookie]);
-  const Logout = () => {
-    removeCookie("token");
-    navigate("/signup");
+    fetchBlogs();
+  }, [tag]);
+
+  // Handle input change
+  const handleTagChange = (e) => {
+    setTag(e.target.value);
   };
+
   return (
     <>
-      <Navbar />
-      <div className="home_page">
-        <h4>
-          {" "}
-          Welcome <span>{username}</span>
-        </h4>
-        <button className="logout" onClick={Logout}>
-          LOGOUT
-        </button>
-        <button className="createBlog" onClick={() => navigate("/createblog")}>
-          {" "}
-          Write{" "}
-        </button>
-        <div>
-          <Blogs />
-        </div>
+      <div className=" container w-full mx-auto m-4 flex justify-center">
+        <Input
+          classNames={{
+            base: "w-full sm:max-w-[10rem] h-10",
+            mainWrapper: "h-full",
+            input: "text-small",
+            inputWrapper:
+              "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+          }}
+          placeholder="Search by Tag..."
+          size="lg"
+          startContent={<SearchIcon size={18} />}
+          type="text"
+          variant="bordered"
+          value={tag}
+          onChange={handleTagChange}
+        />
       </div>
-      <ToastContainer />
-      <Footer />
+      <div className="container mt-8 mx-auto max-w-screen-lg">
+        {blogs && blogs.map((blog) => <Blogs key={blog._id} blog={blog} />)}
+      </div>
     </>
   );
 };
