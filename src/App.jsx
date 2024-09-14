@@ -1,4 +1,3 @@
-// App.jsx
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import {
   Login,
@@ -28,7 +27,7 @@ function AppContent() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/createblog" element={<CreateBlog />} />
           <Route path="/blog/:id" element={<FullBlogView />} />
-          <Route path="/user/:username" element={<UserProfile/>} />
+          <Route path="/user/:username" element={<UserProfile />} />
         </Routes>
       </div>
       {!hideNavbar && <Footer />}
